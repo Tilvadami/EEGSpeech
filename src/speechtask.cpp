@@ -8,9 +8,12 @@ SpeechTask::SpeechTask(QWidget *parent) :
     ui->setupUi(this);
 
 //    qDebug() << STIMULATES[9];
+    tcpSocket = new TcpSocket();
 
     this->setStyleSheet("*{border:1px solid}");
     init();
+
+    Out32(888,1);
 }
 
 SpeechTask::~SpeechTask()

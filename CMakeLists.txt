@@ -10,12 +10,14 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(INPOUT32_DLL_DIR ${PROJECT_SOURCE_DIR}/lib)
 if(MSVC)
     add_compile_options("/source-charset:utf-8")
     add_compile_options("/execution-charset:utf-8")
 endif()
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets network REQUIRED)
 
 file(GLOB src "src/*")
 file(GLOB res "res/*.qrc")
@@ -23,6 +25,6 @@ add_subdirectory(test)
 
 add_library(${PROJECT_NAME} ${src} ${res})
 
-target_link_libraries(EEG_Speech PRIVATE Qt5::Widgets)
+target_link_libraries(EEG_Speech PRIVATE Qt5::Widgets Qt5::Network ${INPOUT32_DLL_DIR}/inpoutx64.dll)
 target_include_directories(${PROJECT_NAME} PUBLIC "src")
 enable_testing(true)

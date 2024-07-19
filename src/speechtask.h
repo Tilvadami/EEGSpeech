@@ -11,7 +11,10 @@
 #include <QTimer>
 #include <QVector>
 #include <QPixmap>
+
 #include "qdebug.h"
+#include "tcpsocket.h"
+#include "inpout32.h"
 
 namespace Ui {
 class SpeechTask;
@@ -62,6 +65,8 @@ private:
     int state = 0; // 状态机。初始化为0，表示目前为十字
 
     int i = 0; // STIMULATES下标，从0开始，顺序迭代.
+
+    TcpSocket *tcpSocket;
 
 public slots:
      void updateStates();
