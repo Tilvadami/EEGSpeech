@@ -1,4 +1,4 @@
-#include <windows.h>
+#include "windows.h"
 #pragma once
 
 //Functions exported from DLL.

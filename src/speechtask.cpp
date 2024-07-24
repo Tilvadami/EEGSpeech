@@ -1,5 +1,6 @@
 #include "speechtask.h"
 #include "ui_speechtask.h"
+#include "inpout32.h"
 
 SpeechTask::SpeechTask(QWidget *parent) :
     QWidget(parent),
@@ -13,7 +14,10 @@ SpeechTask::SpeechTask(QWidget *parent) :
     this->setStyleSheet("*{border:1px solid}");
     init();
 
-    Out32(888,1);
+    port = 888;
+
+    connect(this, &SpeechTask::stateChanged, this, &SpeechTask::sendToLPT);
+
 }
 
 SpeechTask::~SpeechTask()
@@ -100,23 +104,36 @@ void SpeechTask::deleteAllItems()
 //        delete layout;
 //    }
     mainStage();
+    Out32(port, 0);
 }
 
 void SpeechTask::updateStates()
 {
     if(state == 0){ //目前为十字
+        emit stateChanged(i+1);
         lab_cross->setText(STIMULATES[i]);
         ++i;
         state = 1; //更新状态为口令
-    }else{ // 目前为口令
+    }else if(state == 1){ // 目前为口令
+        emit stateChanged(50);
+        lab_cross->setText("");//空白
+        state = 2;
+
+    }else{  //state == 2    空白
         if(i >= STIMULATES.size()){ //全部口令显示完
+
             lab_cross->setText("任务结束");
             timer->stop();
             isStart = false;
         }else{
-            lab_cross->setText("＋");
+            emit stateChanged(0);
+            lab_cross->setText("＋");//十字
             state = 0;
         }
-
     }
+}
+
+void SpeechTask::sendToLPT(short msg)
+{
+    Out32(port, msg);
 }

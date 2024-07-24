@@ -14,7 +14,9 @@
 
 #include "qdebug.h"
 #include "tcpsocket.h"
-#include "inpout32.h"
+extern "C" {
+    #include "inpout32.h"
+}
 
 namespace Ui {
 class SpeechTask;
@@ -68,8 +70,15 @@ private:
 
     TcpSocket *tcpSocket;
 
+    short port;
+
 public slots:
      void updateStates();
+
+     void sendToLPT(short msg);
+
+signals:
+     void stateChanged(short msg);
 
 protected:
     // 重写按键事件

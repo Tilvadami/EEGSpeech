@@ -5,6 +5,6 @@ find_package(Qt5 COMPONENTS Widgets network REQUIRED)
 
 add_executable(${PROJECT_NAME} main.cpp ${res})
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Network EEG_Speech )
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Network EEG_Speech)
 
-message(${INPOUT32_DLL_DIR})
+message(${INPOUT32_DLL_DIR}/inpoutx64.dll)
