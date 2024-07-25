@@ -12,6 +12,7 @@
 #include <QVector>
 #include <QPixmap>
 #include <QCursor>
+#include <QSettings>
 
 #include "qdebug.h"
 #include "tcpsocket.h"
@@ -36,6 +37,8 @@ public:
     void mainStage();
     // 删除所有控件
     void deleteAllItems();
+
+    void initPort();
 
 private:
 
@@ -73,6 +76,10 @@ private:
     TcpSocket *tcpSocket;
 
     short port;
+
+    const QString iniFilePath = "LPTport.ini";
+
+    QSettings *setting;
 
 public slots:
      void updateStates();

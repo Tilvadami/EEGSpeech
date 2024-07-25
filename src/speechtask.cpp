@@ -7,14 +7,10 @@ SpeechTask::SpeechTask(QWidget *parent) :
     ui(new Ui::SpeechTask)
 {
     ui->setupUi(this);
-
-//    qDebug() << STIMULATES[9];
-    tcpSocket = new TcpSocket();
+    setting = new QSettings(iniFilePath, QSettings::IniFormat);
 
     this->setStyleSheet("*{border:1px solid}");
     init();
-
-    port = 888;
 
     connect(this, &SpeechTask::stateChanged, this, &SpeechTask::sendToLPT);
 
@@ -27,6 +23,8 @@ SpeechTask::~SpeechTask()
 
 void SpeechTask::init()
 {
+    initPort();
+
     // 背景色
     this->setStyleSheet("background-color:black;"
                         "color:white");
@@ -109,6 +107,12 @@ void SpeechTask::deleteAllItems()
     this->setCursor(Qt::BlankCursor);
     mainStage();
     Out32(port, 0);
+}
+
+void SpeechTask::initPort()
+{
+    this->port = setting->value("port").toString().toShort();
+    qDebug() << "-=-=-=-port:" << port << endl;
 }
 
 void SpeechTask::updateStates()
