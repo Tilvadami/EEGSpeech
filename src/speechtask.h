@@ -11,6 +11,7 @@
 #include <QTimer>
 #include <QVector>
 #include <QPixmap>
+#include <QCursor>
 
 #include "qdebug.h"
 #include "tcpsocket.h"
@@ -61,6 +62,7 @@ private:
     QLabel *lab_stimulate;
 
     bool isStart = false;
+    bool isOver = false;
 
     QTimer *timer;
 
@@ -91,6 +93,9 @@ protected:
             if(!isStart){
                 deleteAllItems();
                 isStart = true;
+            }
+            if(isOver){
+                this->close();
             }
         }else{
             QWidget::keyPressEvent(event);  //如果是其他按键事件就交给keyPressEvent

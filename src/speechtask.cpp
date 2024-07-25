@@ -27,19 +27,22 @@ SpeechTask::~SpeechTask()
 
 void SpeechTask::init()
 {
+    // 背景色
+    this->setStyleSheet("background-color:black;"
+                        "color:white");
     // 标题
-    QString txt_title = "xxx-title";
+    QString txt_title = "语义识别任务";
     this->lab_title = new QLabel(this);
     this->lab_title->setText(txt_title);
     this->lab_title->setAlignment(Qt::AlignCenter);
     this->lab_title->setStyleSheet("QLabel{font-size:34px;font:bold;border:1px solid}");
 
     // 任务说明
-    QString txt_description = "任务说明：\n\n任务开始，第一个阶段为准备阶段，屏幕中心会出现一个十字，持续3秒。\n\n随后出现口令，你需要在口令出现时，清晰地读出口令的内容，持续3秒。\n\n在任务过程中，请尽量不要发出杂音。";
+    QString txt_description = "任务说明：\n\n任务开始，第一个阶段为准备阶段，屏幕中心会出现一个十字，在此期间请将注意力集中再十字上，十字将持续显示3秒。\n\n第二阶段出现口令，你需要在口令出现时，用标准的普通话大声、清晰地读出口令的内容，口令将持续显示2秒。\n\n第三阶段为空白阶段，等待下一个口令，此阶段持续2秒。\n\n注意：在任务过程中，请尽量不要发出杂音。";
     this->lab_description = new QLabel(this);
     this->lab_description->setText(txt_description);
     this->lab_description->setAlignment(Qt::AlignLeft);
-    this->lab_description->setStyleSheet("QLabel{font-size:34px;font:bold;border:1px solid;}");
+    this->lab_description->setStyleSheet("QLabel{font-size:34px;font:bold;}");
 
     // 底部展示过程
     this->widget_bottom = new QWidget(this);
@@ -72,7 +75,7 @@ void SpeechTask::mainStage()
 
     lab_cross->resize(100, 50);
     lab_cross->setAlignment(Qt::AlignCenter);
-    lab_cross->setStyleSheet("QLabel{font-size:68px;font:bold;color:red}");
+    lab_cross->setStyleSheet("QLabel{font-size:68px;font:bold;color:white}");
 
     this->vlayout->addWidget(lab_cross);
 
@@ -103,6 +106,7 @@ void SpeechTask::deleteAllItems()
 //    foreach (QVBoxLayout *layout, listLayout) {
 //        delete layout;
 //    }
+    this->setCursor(Qt::BlankCursor);
     mainStage();
     Out32(port, 0);
 }
@@ -114,6 +118,7 @@ void SpeechTask::updateStates()
         lab_cross->setText(STIMULATES[i]);
         ++i;
         state = 1; //更新状态为口令
+        timer->setInterval(2000);
     }else if(state == 1){ // 目前为口令
         emit stateChanged(50);
         lab_cross->setText("");//空白
@@ -124,11 +129,12 @@ void SpeechTask::updateStates()
 
             lab_cross->setText("任务结束");
             timer->stop();
-            isStart = false;
+            isOver = true;
         }else{
             emit stateChanged(0);
             lab_cross->setText("＋");//十字
             state = 0;
+            timer->setInterval(3000);   //等待3秒
         }
     }
 }
