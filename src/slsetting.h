@@ -5,6 +5,8 @@
 #include <QSettings>
 #include <QFile>
 #include <QString>
+#include <QDialog>
+#include <QMessageBox>
 #include "qdebug.h"
 
 namespace Ui {

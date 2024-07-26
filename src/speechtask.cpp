@@ -145,5 +145,5 @@ void SpeechTask::updateStates()
 
 void SpeechTask::sendToLPT(short msg)
 {
-    Out32(port, msg);
+     Out32(port, msg);
 }
