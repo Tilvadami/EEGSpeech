@@ -125,7 +125,7 @@ void SpeechTask::updateStates()
         timer->setInterval(2000);
     }else if(state == 1){ // 目前为口令
         emit stateChanged(50);
-        lab_cross->setText("");//空白
+        lab_cross->setText("");// 空白
         state = 2;
 
     }else{  //state == 2    空白
@@ -136,9 +136,9 @@ void SpeechTask::updateStates()
             isOver = true;
         }else{
             emit stateChanged(0);
-            lab_cross->setText("＋");//十字
+            lab_cross->setText("＋");// 十字
             state = 0;
-            timer->setInterval(3000);   //等待3秒
+            timer->setInterval(3000);   // 等待3秒
         }
     }
 }

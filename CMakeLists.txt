@@ -16,7 +16,7 @@ if(MSVC)
     add_compile_options("/execution-charset:utf-8")
 endif()
 
-find_package(Qt5 COMPONENTS Widgets network gui REQUIRED)
+find_package(Qt5 COMPONENTS Widgets network gui serialport REQUIRED)
 #link_directories(${PROJECT_SOURCE_DIR}/dll)
 
 # 链接动态库
@@ -27,7 +27,7 @@ add_subdirectory(test)
 
 add_library(${PROJECT_NAME} ${src} ${res})
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Network Qt5::Gui ${PROJECT_SOURCE_DIR}/dll/inpoutx64.dll)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Network Qt5::Gui Qt5::SerialPort ${PROJECT_SOURCE_DIR}/dll/inpoutx64.dll)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "src")
 enable_testing(true)
